@@ -90,6 +90,7 @@ class Ball
         if @last_hit_side != paddle.side
             position = ((@shape.y1 - paddle.y1) / Paddle::HEIGHT.to_f)
             angle = position.clamp(0.2, 0.8) * Math::PI
+            #puts "position = #{position}"
 
             if paddle.side == :left
                 @x_velocity = Math.sin(angle) * @speed
@@ -127,21 +128,25 @@ class Ball
 end
 
 @ball_velocity = 8
-@player_health = 5
-@opponent_health = 5
+@player_health = 3
+@opponent_health = 3
 @screen = "intro"
+@game = true
 
 player = Paddle.new(:left, 4)
 opponent = Paddle.new(:right, 4)
 ball = Ball.new(@ball_velocity)
 
-update do
-    if @screen == "intro"
+
+if @screen == "intro"
+    clear
+    Text.new('PONG GAME', size: 40, x: 150, y: 100)
+elsif @screen == "main"
+    clear
+    set background: 'blue'
+    update do
         clear
-        Text.new('PONG GAME', size: 40, x: 180, y: 140)
-        Text.new('press "b" to begin or "q" to quit', size: 20, x: 170, y: 200)
-    elsif @screen == "main"
-        clear
+    
         if player.hit_ball?(ball)
             ball.bounce_off(player)
             #@ball_acceleration+=0.1
@@ -173,25 +178,21 @@ update do
         end
     
         if player.dead?(@player_health)
-            p "player dead"
             @dead = "player"
-            @screen = "game_over"
+            @screen == "game_over"
         elsif opponent.dead?(@opponent_health)
-            p "opponent dead"
             @dead = "opponent"
-            @screen = "game_over"
+            @screen == "game_over"
         end
-    
-    elsif @screen == "game_over"
-        clear
-        if @dead == "player"
-            Text.new('THE OPPONENT WINS!', x: 180, y: 220, size: 25)
-            Text.new('press "b" to restart', size: 20, x: 220, y: 250)
-        elsif @dead == "opponent"
-            Text.new('THE PLAYER WINS!', x: 200, y: 220, size: 25)
-            Text.new('press "b" to restart', size: 20, x: 220, y: 250)
-        end
-    
+    end
+
+elsif @screen == "game_over"
+    set background: 'black'
+    clear
+    if @dead == "player"
+        Text.new('THE OPPONENT WINS!', x: 190, y: 220, size: 25)
+    elsif @dead == "opponent"
+        Text.new('THE PLAYER WINS!', x: 200, y: 220, size: 25)
     end
 
 end
@@ -208,10 +209,8 @@ on :key_held do |event|
         opponent.direction = :down
     elsif event.key == 'b'
         @screen = "main"
-        @player_health = 5
-        @opponent_health = 5
     elsif event.key == 'q'
-        exit
+        @game = false
     end
 end
 
