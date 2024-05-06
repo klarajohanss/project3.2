@@ -1,6 +1,10 @@
 require 'ruby2d'
 
 set background: 'blue'
+background_music = Music.new('audio\background_music.wav')
+PING = Sound.new('audio\ping.wav')
+PONG = Sound.new('audio\pong.wav')
+
 
 class Paddle
     HEIGHT = 150
@@ -79,6 +83,7 @@ class Ball
     def move
         if hit_bottom? || hit_top?
             @y_velocity = -@y_velocity
+            PONG.play
         end
 
         @x += @x_velocity
@@ -134,6 +139,9 @@ end
 player = Paddle.new(:left, 4)
 opponent = Paddle.new(:right, 4)
 ball = Ball.new(@ball_velocity)
+background_music.volume = 50
+background_music.loop = true
+background_music.play
 
 update do
     if @screen == "intro"
@@ -144,11 +152,13 @@ update do
         clear
         if player.hit_ball?(ball)
             ball.bounce_off(player)
+            PING.play
             #@ball_acceleration+=0.1
         end
     
         if opponent.hit_ball?(ball)
             ball.bounce_off(opponent)
+            PING.play
             #@ball_acceleration+=0.1
         end
     
@@ -190,6 +200,7 @@ update do
         elsif @dead == "opponent"
             Text.new('THE PLAYER WINS!', x: 200, y: 220, size: 25)
             Text.new('press "b" to restart', size: 20, x: 220, y: 250)
+            
         end
     
     end
