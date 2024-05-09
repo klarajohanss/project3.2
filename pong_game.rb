@@ -139,7 +139,7 @@ end
 player = Paddle.new(:left, 4)
 opponent = Paddle.new(:right, 4)
 ball = Ball.new(@ball_velocity)
-background_music.volume = 50
+background_music.volume = 30
 background_music.loop = true
 background_music.play
 
