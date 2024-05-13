@@ -183,11 +183,9 @@ update do
         end
     
         if player.dead?(@player_health)
-            p "player dead"
             @dead = "player"
             @screen = "game_over"
         elsif opponent.dead?(@opponent_health)
-            p "opponent dead"
             @dead = "opponent"
             @screen = "game_over"
         end
@@ -230,6 +228,5 @@ on :key_up do |event|
     player.direction = nil
     opponent.direction = nil
 end
-
 
 show
