@@ -153,13 +153,11 @@ update do
         if player.hit_ball?(ball)
             ball.bounce_off(player)
             PING.play
-            #@ball_acceleration+=0.1
         end
     
         if opponent.hit_ball?(ball)
             ball.bounce_off(opponent)
             PING.play
-            #@ball_acceleration+=0.1
         end
     
         player.move
