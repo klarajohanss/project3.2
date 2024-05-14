@@ -1,10 +1,20 @@
+#
+#   File: pong_game.rb
+#   Author: Klara Johansson
+#   Date: 2024-05-13
+#   Description: This program displays a simple two-player pong game using classes, 
+#   loops and key listeners from Ruby2d where the goal is to move your paddle up 
+#   and down with keys on the keyboard to make the ball bounce off, and avoid it
+#   missing the paddle. 
+
+
 require 'ruby2d'
 
+#Background color, music and sfx
 set background: 'blue'
 background_music = Music.new('audio\background_music.wav')
 PING = Sound.new('audio\ping.wav')
 PONG = Sound.new('audio\pong.wav')
-
 
 class Paddle
     HEIGHT = 150
@@ -131,6 +141,7 @@ class Ball
     end
 end
 
+#Instance variables
 @ball_velocity = 8
 @player_health = 5
 @opponent_health = 5
